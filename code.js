@@ -1,0 +1,440 @@
+const myProductName = "Newsworthy", myVersion = "0.4.0";  
+
+const theTabs = {
+	scriptingNews: {
+		enabled: true,
+		name: "Dave",
+		description: "Scripting News, Dave Winer's blog, continuously updated since 1994.",
+		type: "blog",
+		icon: "fa fa-book",
+		flJavaScriptDomFeatures: true,
+		getContent: function (callback) {
+			const htmltext = $("#idBodytext").html ();
+			if (htmltext === undefined) { //test version
+				const url = "http://scripting.com/homepage.html";
+				httpRequest (url, undefined, undefined, callback);
+				}
+			else {
+				callback (undefined, htmltext);
+				}
+			}
+		},
+	blog2: {
+		enabled: false,
+		name: "Blog2",
+		type: "blog",
+		icon: "fa fa-wordpress",
+		getContent: function (callback) {
+			getWordPressSiteText (222485322, callback);
+			}
+		},
+	Linkblog: {
+		enabled: true,
+		name: "Links",
+		description: "Links that Dave thought you might find interesting, or wanted to keep a link to for himself.",
+		type: "linkblog",
+		icon: "fa fa-link",
+		getContent: function (callback) {
+			const feedUrl = "http://data.feedland.org/feeds/davewiner.xml";
+			const url = "http://feeder.scripting.com/returnlinkbloghtml?url=" + encodeURIComponent (feedUrl);
+			httpRequest (url, undefined, undefined, function (err, htmltext) {
+				if (err) {
+					callback (err);
+					}
+				else {
+					htmltext = "<div class=\"divLinkblogContainer\">" + htmltext + "</div>";
+					callback (undefined, htmltext);
+					}
+				});
+			}
+		},
+	allNews: {
+		enabled: false,
+		name: "All news",
+		description: "News from all the feeds Dave subscribes to in FeedLand.",
+		type: "river",
+		icon: "fa fa-newspaper",
+		getContent: function (callback) {
+			setUpRiver ({screenname: "davewiner", catname: "All"}, callback);
+			}
+		},
+	politicalNews: {
+		enabled: false,
+		name: "Political news",
+		description: "News from feeds Dave subscribes to in FeedLand, in the \"Politics\" category.",
+		type: "river",
+		icon: "fa fa-newspaper",
+		getContent: function (callback) {
+			setUpRiver ({screenname: "davewiner", catname: "Politics"}, callback);
+			}
+		},
+	tech: {
+		enabled: false,
+		name: "Tech",
+		description: "News from feeds Dave subscribes to in FeedLand, in the \"Tech\" category.",
+		type: "river",
+		icon: "fa fa-newspaper",
+		getContent: function (callback) {
+			setUpRiver ({screenname: "davewiner", catname: "Tech"}, callback);
+			}
+		},
+	podcasts: {
+		enabled: false,
+		name: "Podcasts",
+		type: "river",
+		description: "News from feeds Dave subscribes to in FeedLand, in the \"Podcasts\" category.",
+		icon: "fa fa-newspaper",
+		getContent: function (callback) {
+			setUpRiver ({screenname: "davewiner", catname: "Podcasts"}, callback);
+			}
+		},
+	bloggers: {
+		enabled: true,
+		name: "Bloggers",
+		type: "river",
+		description: "News from feeds Dave subscribes to in FeedLand, in the \"Bloggers\" category.",
+		icon: "fa fa-newspaper",
+		getContent: function (callback) {
+			setUpRiver ({screenname: "davewiner", catname: "Bloggers"}, callback);
+			}
+		},
+	dave: {
+		enabled: false,
+		name: "Dave",
+		type: "river",
+		icon: "fa fa-newspaper",
+		getContent: function (callback) {
+			setUpRiver ({screenname: "davewiner", catname: "Dave"}, callback);
+			}
+		},
+	about: {
+		enabled: true,
+		name: "About",
+		type: "outline",
+		description: "Notes about this site, in outline form. Not updated often enough. :-)",
+		icon: "fa fa-info-circle",
+		urlAboutOpml: "http://scripting.com/publicfolder/scripting/aboutpage.opml", 
+		getContent: function (callback) {
+			const aboutOutlineTitle = "About Scripting News";
+			opml.read (theTabs.about.urlAboutOpml, undefined, function (err, theOutline) {
+				if (err) {
+					callback (err);
+					}
+				else {
+					const outlineBody = theOutline.opml.body;
+					outlineBody.text = aboutOutlineTitle;
+					const divAboutOutline = $("<div class=\"divAboutOutline\"></div>");
+					const divRenderedOutline = renderOutlineBrowser (outlineBody, false, undefined, undefined, true);
+					divAboutOutline.append (divRenderedOutline);
+					callback (undefined, divAboutOutline);
+					}
+				});
+			}
+		
+		},
+	};
+
+const appConsts = {
+	urlFeedlandServer: "https://feedland.com/"
+	}
+
+var globals = {
+	};
+
+function htmlLink (url, text) {
+	return ("<a href=\"" + url + "\" target=\"_blank\">" + text + "</a>");
+	}
+function addToolTip (theObject, tipText, placement="right") { //8/24/22 by DW
+	$(theObject).attr ("data-container", "body"); //10/23/22 by DW
+	$(theObject).attr ("data-toggle", "tooltip");
+	$(theObject).attr ("data-placement", placement);
+	$(theObject).attr ("title", tipText);
+	$(theObject).click (function () { //11/1/22 by DW
+		$(theObject).tooltip ("hide");
+		});
+	return (theObject);
+	}
+function neuterMarkup (theString) { //11/17/23 by DW
+	var temp = document.createElement ("div");
+	temp.textContent = theString;
+	return (temp.innerHTML);
+	}
+function equalStrings (s1, s2) {
+	return (stringLower (s1) == stringLower (s2));
+	}
+function getAllUrlParams (searchstring=location.search) { //9/7/22 by DW
+	var s = searchstring;
+	var allparams = new Object ();
+	if (beginsWith (s, "?")) {
+		s = stringDelete (s, 1, 1);
+		}
+	var splits = s.split ("&");
+	splits.forEach (function (item) {
+		const splits = item.split ("="); //9/10/23 by DW
+		const name = splits [0];
+		var val = decodeURIComponent (stringDelete (item, 1, name.length + 1));
+		val = neuterMarkup (val); //11/17/23 by DW
+		allparams [trimWhitespace (name)] = val;
+		});
+	return (allparams);
+	}
+function doRedirect (url) {
+	location.href = url;
+	}
+function httpRequest (url, timeout, headers, callback) { 
+	timeout = (timeout === undefined) ? 30000 : timeout;
+	var jxhr = $.ajax ({ 
+		url: url,
+		dataType: "text", 
+		headers,
+		timeout
+		}) 
+	.success (function (data, status) { 
+		callback (undefined, data);
+		}) 
+	.error (function (status) { 
+		var message;
+		try { //9/18/21 by DW
+			message = JSON.parse (status.responseText).message;
+			}
+		catch (err) {
+			message = status.responseText;
+			}
+		if ((message === undefined) || (message.length == 0)) { //7/22/22 by DW & 8/31/22 by DW
+			message = "There was an error communicating with the server.";
+			}
+		var err = {
+			code: status.status,
+			message
+			};
+		callback (err);
+		});
+	}
+function setUpRiver (riverSpec, callback) {
+	const divRiverContent = $("<div class=\"divRiverContent\"></div>");
+	displayTraditionalRiver (riverSpec, divRiverContent);
+	callback (undefined, divRiverContent)
+	}
+function readOpmlFile (url, outlineTitle, callback) {
+	httpRequest (url, undefined, undefined, callback);
+	}
+
+//wordpress
+	const flUseLocalServer = false;
+	
+	function getServerAddress () {
+		if (flUseLocalServer) {
+			return ("http://localhost:1408/");
+			}
+		else {
+			return ("https://wpidentity.scripting.com/");
+			}
+		}
+	function myGetSitePosts (idsite, callback) {
+		servercall ("wordpressgetsiteposts", {idsite}, true, callback);
+		}
+	function getWordPressSiteText (idsite, callback) {
+		myGetSitePosts (idsite, function (err, thePosts) {
+			if (err) {
+				callback (err);
+				}
+			else {
+				var htmltext = "", indentlevel = 0, lastday = new Date (0), flNotFirstArchivePageDay = false;
+				function add (s) {
+					htmltext += filledString ("\t", indentlevel) + s + "\n";
+					}
+				thePosts.forEach (function (item) {
+					if (!sameDay (lastday, item.whenCreated)) {
+						if (flNotFirstArchivePageDay) {
+							add ("</div>"); indentlevel--;
+							}
+						add ("<div class=\"divArchivePageDay\">"); indentlevel++;
+						flNotFirstArchivePageDay = true;
+						
+						add ("<div class=\"divDayTitle\">" + formatDate (item.whenCreated, "%A, %B %e, %Y") + "</div>");
+						lastday = item.whenCreated;
+						}
+					add ("<div class=\"divTitledItem\">"); indentlevel++;
+					add ("<div class=\"divTitle\">" + item.title + "</div>");
+					add ("<div class=\"divWordpressContent\">" + item.content + "</div>");
+					add ("</div>"); indentlevel--;
+					});
+				if (flNotFirstArchivePageDay) {
+					add ("</div>"); indentlevel--;
+					}
+				callback (undefined, htmltext);
+				}
+			});
+		}
+	
+//tabs
+	function getNthTab (n) {
+		var ix = 0;
+		for (var x in theTabs) {
+			if (ix == n) {
+				return (theTabs [x]);
+				}
+			ix++;
+			}
+		}
+	function buildTabsAsTabs (userOptions) {
+		var options = {
+			nameActiveTab: getNthTab (0).name
+			};
+		for (var x in userOptions) {
+			if (userOptions [x] !== undefined) {
+				options [x] = userOptions [x];
+				}
+			}
+		
+		function displayTabContents (tabRec) {
+			const where = $(".divTabContent");
+			
+			function append (htmltext) {
+				where.append (htmltext);
+				if (getBoolean (tabRec.flJavaScriptDomFeatures)) {
+					setupJavaScriptFeatures ();
+					}
+				}
+			
+			
+			console.log ("displayTabContents: tabRec.name == " + tabRec.name);
+			if (tabRec.getContent === undefined) {
+				where.html (new Date ().toLocaleTimeString ());
+				}
+			else {
+				where.empty ();
+				if (tabRec.savedHtml === undefined) {
+					tabRec.getContent (function (err, theContent) {
+						if (err) {
+							where.html (err.message);
+							}
+						else {
+							tabRec.savedHtml = theContent;
+							append (theContent);
+							}
+						});
+					}
+				else {
+					append (tabRec.savedHtml);
+					}
+				}
+			}
+		function pushState (tabname) {
+			var state = {
+				tabname
+				};
+			history.pushState (state, "", location.pathname + "?tab=" + encodeURIComponent (stringLower (tabname)));
+			}
+		
+		const ulTabs = $(".divScriptingTabs ul");
+		var flFoundTab = false, firstTab = undefined;
+		ulTabs.empty ();
+		for (var x in theTabs) {
+			const item = theTabs [x];
+			if (item.enabled) {
+				const icon = "<i class=\"iTabIcon " + item.icon + "\"></i>";
+				const liTab = $("<li class=\"liTab\"><a data-toggle=\"tab\">" + icon + item.name + "</a></li>");
+				if (firstTab === undefined) {
+					firstTab = {
+						liTab,
+						item
+						}
+					}
+				if (equalStrings (item.name, options.nameActiveTab)) {
+					liTab.addClass ("active");
+					displayTabContents (item);
+					flFoundTab = true;
+					}
+				addToolTip (liTab, item.description);
+				liTab.click (function () {
+					$(".liTab").removeClass ("active");
+					liTab.addClass ("active");
+					displayTabContents (item);
+					pushState (item.name);
+					});
+				ulTabs.append (liTab);
+				}
+			}
+		
+		if ((!flFoundTab) && (firstTab !== undefined)) {
+			firstTab.liTab.addClass ("active");
+			displayTabContents (firstTab.item);
+			}
+		
+		activateToolTips ();
+		window.addEventListener ("popstate", function (ev) {
+			if (ev.state != null) {
+				console.log ("popstate: ev.state.tabname == " + jsonStringify (ev.state.tabname));
+				for (var x in theTabs) {
+					var item = theTabs [x];
+					if (item.name == ev.state.tabname) {
+						displayTabContents (item);
+						}
+					}
+				$(".liTab").removeClass ("active");
+				$(".liTab").each (function () {
+					if ($(this).text () == ev.state.tabname) {
+						$(this).addClass ("active");
+						}
+					});
+				}
+			});
+		}
+//connection to feedland
+	var appPrefs = {
+		urlReaderApp: undefined
+		};
+	function getUsersBlogUrl () { 
+		return (""); 
+		}
+
+function everyMinute () {
+	var now = new Date ();
+	if (now.getMinutes () == 0) {
+		console.log ("\neveryMinute: " + now.toLocaleTimeString () + ", v" + myVersion);
+		}
+	riverItemsEveryMinute ();
+	viewLastUpdateString ();
+	$(".spRandomMotto").each (function () { //8/7/19 by DW
+		$(this).text (getRandomSnarkySlogan ());
+		});
+	}
+function everySecond () {
+	riverItemsEverySecond ();
+	$(".spHowLongRunning").each (function () { //8/9/19 by DW
+		$(this).text ("This blog has been running for: " + howLongSinceStartAsString (new Date ("10/7/1994, 12:00 PDT")));
+		});
+	}
+function viewLastUpdateString () { //9/28/17 by DW
+	var whenstring = getFacebookTimeString (config.now, true); //2/25/18 by DW
+	if (beginsWith (whenstring, "Yesterday")) {
+		whenstring = "Yesterday";
+		}
+	$("#idLastScriptingUpdate").html ("Updated: " + whenstring + ".");
+	}
+function startup () {
+	console.log ("startup");
+	
+	if (localStorage.wordpressMemory !== undefined) {
+		wordpressMemory = JSON.parse (localStorage.wordpressMemory);
+		}
+	
+	const allparams = getAllUrlParams ();
+	const options = {
+		nameActiveTab: allparams.tab
+		};
+	buildTabsAsTabs (options);
+	
+	setTimeout (function () { 
+		$(".divNavigationColumn").css ("display", "table-cell");
+		$(".divTextColumn").css ("display", "table-cell");
+		}, 300);
+	
+	viewLastUpdateString ();
+	self.setInterval (everySecond, 1000);
+	runEveryMinute (everyMinute);
+	everyMinute ();
+	
+	hitCounter ();
+	}

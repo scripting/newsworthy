@@ -1,0 +1,248 @@
+body {
+	background-color: whitesmoke;
+	font-family: Ubuntu;
+	font-size: 18px;
+	line-height: 140%;
+	}
+.divPageBody {
+	width: 680px;
+	margin-top: 265px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 400px;
+	}
+
+.divTabsContainer {
+	}
+.divTabs .nav-tabs > .active > a {
+	border-top: 1px solid silver;
+	border-left: 1px solid silver;
+	border-right: 1px solid silver;
+	}
+.divTabs ul {
+	margin-bottom: 0;
+	}
+.divTabs li {
+	width: 150px;
+	font-size: 18px;
+	cursor: pointer;
+	color: gray;
+	}
+.divTabs a {
+	color: black;
+	}
+.divTabs .active {
+	color: black;
+	font-weight: bold;
+	}
+.divTabs .iTabIcon {
+	font-size: 18px;
+	
+	}
+.divTabsContentContainer {
+	background-color: white;
+	border-left: 1px solid silver;
+	border-right: 1px solid silver;
+	border-bottom: 1px solid silver;
+	}
+.divTabsContent {
+	width: 640px;
+	margin-left: auto;
+	margin-right: auto;
+	min-height: 5000px;
+	background-color: white;
+	padding-top: 30px;
+	padding-right: 40px;
+	}
+.divTabs .nav-tabs > li > a, .nav-pills > li > a {
+	padding-left: 6px;
+	padding-right: 6px;
+	}
+
+/* rivers */
+	.divRiverContent {
+		margin-left: 0;
+		}
+	.divRiverContent .divTitledItem .divTitle {
+		font-family: "Ubuntu";
+		letter-spacing: 0px;
+		margin-top: 0px;
+		}
+	.divRiverSection .spFeedTitle {
+		background-color: white;
+		}
+	.divRiverSection .spFeedPubDate {
+		background-color: white;
+		}
+/* wordpress styles */
+	.divWordpressContent {
+		font-size: 18px;
+		line-height: 150%;
+		margin-top: 10px;
+		}
+/* linkblog styles */
+	.divLinkblogContainer {
+		margin-left: 20px;
+		}
+	.divLinkblogTitle {
+		font-size: 32px;
+		font-weight: bold;
+		margin-bottom: 1.3em;
+		line-height: 140%;
+		}
+	.divLinkblogDay {
+		margin-top: .5em;
+		margin-bottom: 2em;
+		}
+	.divLinkblogDayTitle {
+		font-weight: bold;
+		font-size: 20px;
+		margin-bottom: .5em;
+		}
+	.divLinkblogDay p {
+		font-size: 18px;
+		line-height: 140%;
+		}
+	
+	@media only screen 
+	and (min-device-width : 320px) 
+	and (max-device-width : 480px) {
+		.divLinkblogTitle {
+			font-size: 20px;
+			font-weight: bold;
+			margin-bottom: 1.3em;
+			line-height: 140%;
+			}
+		.divLinkblogDayTitle {
+			font-size: 16px !important;
+			font-weight: bold;
+			font-size: 1.2em;
+			margin-bottom: .5em;
+			}
+		}
+/* scripting news styles */
+	.divArchivePageDay {
+		width: 600px;
+		font-size: 18px;
+		}
+	.divArchivePageDay  .divTitledItem .divTitle {
+		font-size: 25px;
+		line-height: 140%;
+		letter-spacing: -1px;
+		margin-top: 20px;
+		margin-bottom: 10px;
+		}
+	.divArchivePageDay  .divTitledItem li {
+		font-size: 18px;
+		}
+	.divArchivePageDay .divSingularItem {
+		font-size: 18px;
+		}
+	.divArchivePageDay .spPermaLink { /* 11/29/23 by DW */
+		display: inline;
+		}
+	
+/* about outline */
+	.divAboutOutline {
+		margin-left: 10px;
+		}
+	.divAboutOutline ul {
+		margin-left: 15px;
+		}
+	.divAboutOutline .divOutlineText {
+		font-size: 18px;
+		line-height: 130%;
+		}
+	.divAboutOutline .divOutlineHead .aOutlineTextLink {
+		color: black;
+		}
+
+/* columns instead of tabs -- 11/24/23 by DW */
+	.divColumnContainer { 
+		display: table;
+		width: 900px; 
+		border-collapse: separate; 
+		border-spacing: 5px 0;
+		}
+	.divNavigationColumn {
+		display: table-cell;
+		vertical-align: top;
+		text-align: center;
+		width: 90px;
+		padding: 5px;
+		padding-top: 15px;
+		padding-bottom: 40px;
+		margin-right: 5px;
+		}
+	.divBeetIcon {
+		margin-bottom: 15px;
+		}
+	.divNavigationColumn ul {
+		list-style-type: none;
+		margin: 0;
+		font-size: 16px;
+		line-height: 140%;
+		margin-top: 15px;
+		margin-bottom: 15px;
+		}
+	.divNavigationColumn ul li {
+		margin-bottom: 10px;
+		cursor: pointer;
+		}
+	.divNavigationColumn ul li .active {
+		cursor: pointer;
+		font-weight: bold;
+		}
+	.divNavigationColumn ul li .active a {
+		color: black;
+		}
+	.divSpacerColumn {
+		width: 10px;
+		}
+	.divTextColumn {
+		display: table-cell;
+		width: 650px;
+		border: 1px solid silver;
+		background-color: white;
+		padding-top: 30px;
+		padding-left: 40px;
+		padding-right: 40px;
+		padding-bottom: 40px;
+		min-height: 10000px;
+		}
+
+.divMoreButton {
+	display: none;
+	}
+
+/* 11/30/23 by DW */
+	.divScriptingTabs li {
+		width: 130px;
+		}
+	.divScriptingTabs {
+		height: 38px;
+		}
+
+/* styles for phone */
+	@media only screen 
+	and (min-device-width : 320px) 
+	and (max-device-width : 480px) {
+		body {
+			font-size: 16px;
+			}
+		.divPageBody {
+			width: 98%;
+			margin-top: 143px;
+			}
+		.divScriptingTabs li {
+			width: inherit;
+			min-width: 60px;
+			max-width: 110px;
+			font-size: 15px;
+			}
+		.divScriptingTab .divArchivePageDay, .divScriptingTab .divLinkblogContainer {
+			width: 100%;
+			margin-left: 0;
+			font-size: 17px;
+			}
+		}

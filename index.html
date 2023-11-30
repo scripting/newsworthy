@@ -1,0 +1,91 @@
+<html>
+	<head>
+		<title>[%pagetitle%]</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		[%rssLink%]
+		[%facebookmetadata%]
+		[%twittermetadata%]
+		
+		<script src="//s3.amazonaws.com/scripting.com/code/includes/jquery-1.9.1.min.js"></script>
+<link href="//s3.amazonaws.com/scripting.com/code/includes/bootstrap.css" rel="stylesheet">
+<script src="//s3.amazonaws.com/scripting.com/code/includes/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="//s3.amazonaws.com/scripting.com/code/fontawesome/css/all.css">
+<link href="//fonts.googleapis.com/css?family=Ubuntu:400,500i,700" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Rancho" rel="stylesheet">
+
+<script src="//s3.amazonaws.com/scripting.com/code/includes/basic/code.js?x=1"></script>
+<link href="//s3.amazonaws.com/scripting.com/code/includes/basic/styles.css" rel="stylesheet" type="text/css">
+ 
+		
+		<link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="//s3.amazonaws.com/fargo.io/code/fontAwesome/css/font-awesome.min.css"/>
+		<link href="//scripting.com/code/oldschool/daytemplate.css" rel="stylesheet" type="text/css">
+		
+		
+		<script src="//s3.amazonaws.com/fargo.io/code/markdownConverter.js"></script>
+		<script src="//s3.amazonaws.com/scripting.com/code/feedland/home/api.js"></script>
+		<script src="//s3.amazonaws.com/scripting.com/code/feedland/home/misc.js"></script>
+		<link href="//s3.amazonaws.com/scripting.com/code/feedland/home/misc.css" rel="stylesheet" type="text/css">
+		<link href="//s3.amazonaws.com/scripting.com/code/feedland/home/oldschoolrender.css" rel="stylesheet" type="text/css">
+		<script src="//s3.amazonaws.com/scripting.com/code/feedland/home/oldschoolrender.js"></script>
+		<script src="//s3.amazonaws.com/scripting.com/code/feedland/home/getfeedinfo.js"></script>
+		<script src="//s3.amazonaws.com/scripting.com/code/feedland/home/riverviewer.js"></script>
+		<link href="//s3.amazonaws.com/scripting.com/code/feedland/home/riverviewer.css" rel="stylesheet" type="text/css">
+		
+		<script src="//s3.amazonaws.com/scripting.com/code/tagrefdialog/dialog.js"></script>
+		
+		<script src="//s3.amazonaws.com/fargo.io/code/shared/xml.js"></script>
+		<script src="//s3.amazonaws.com/fargo.io/code/browsers/outlinebrowser.js"></script>
+		<link href="//s3.amazonaws.com/fargo.io/code/browsers/outlinebrowser.css" rel="stylesheet" type="text/css">
+		<script src="//s3.amazonaws.com/fargo.io/code/shared/reader.js"></script>
+		<script src="//s3.amazonaws.com/scripting.com/code/opmlpackage/client/opml.js"></script>
+		
+		<script src="http://scripting.com/code/newsworthy/macros.js"></script>
+		<script src="http://scripting.com/code/newsworthy/code.js"></script>
+		<link rel="stylesheet" href="http://scripting.com/code/newsworthy/styles.css"/>
+		
+		<script>
+			var config = [%configJson%];
+			var opmlHead = [%opmlHead%];
+			</script>
+		</head>
+	<body>
+		<div class="divPagetop">
+			[%pagetop%]
+			</div>
+		<div class="divPageBody">
+			<div class="divScriptingTabsPage" id="idScriptingTabsPage">
+				<div class="divScriptingTabs" id="idTabs" style="visibility: visible;">
+					<div class="divLastScriptingUpdate" id="idLastScriptingUpdate">
+						</div>
+					<ul id="idTabList" class="nav nav-tabs">
+						</ul>
+					</div>
+				<div class="divScriptingTab" id="idScriptingTab">
+					<div class="divTabContent" id="idTabContent">
+						</div>
+					</div>
+				</div>
+			<div class="divFooter">
+				<p>&copy; copyright 1994-2023 Dave Winer.</p>
+				<p>Last update: [%now%].</p>
+				<p><span class="spRandomMotto"></span></p>
+				<p><span class="spHowLongRunning"></span></p>
+				<p>You know those obnoxious sites that pop up dialogs when they think you're about to leave, asking you to subscribe to their email newsletter? Well that won't do for Scripting News readers who are a discerning lot, very loyal, but that wouldn't last long if I did rude stuff like that. So here I am at the bottom of the page <i>quietly</i> encouraging you to <a href="http://scripting.com/email/">sign up for the nightly email</a>. It's got everything from the previous day on Scripting, plus the contents of the linkblog and who knows what else we'll get in there. People really love it. I wish I had done it sooner. And every email has an unsub link so if you want to get out, you can, easily -- no questions asked, and no follow-ups. Go ahead and do it, you won't be sorry! :-)</p>
+				<p id="idSnarkySlogan"></p>
+				[%socialMediaLinks%]
+				<div class="divMastodonLink"><a rel="me" href="https://mastodon.social/@davew">davew@mastodon.social</a></div>
+				</div>
+			</div>
+		<div class="divForSearchIndex" style="display: none;" id="idBodytext">
+			[%bodytext%]
+			</div>
+		<script>
+			$(document).ready (function () {
+				startup ();
+				});
+			</script>
+		</body>
+	</html>
