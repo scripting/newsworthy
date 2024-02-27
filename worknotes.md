@@ -1,3 +1,13 @@
+#### 2/27/24; 12:10:52 PM by DW
+
+Add a blogroll to the scripting news home page. 
+
+The index.html file here is the one used to render the actual scripting.com home page.
+
+So when we're working on a prototype, you should make a copy of index.html, call it test.html, and iterate over that.
+
+When you want to deploy the new version, change it to index.html.
+
 #### 2/13/24; 4:33:38 PM by DW
 
 The All category is very slow, working on it, in the meantime the News tab should be displaying something faster, like Tech category. 
