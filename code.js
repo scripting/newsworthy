@@ -89,13 +89,23 @@ const theTabs = {
 			}
 		},
 	bloggers: {
-		enabled: true,
+		enabled: false,
 		name: "Bloggers",
 		type: "river",
 		description: "News from feeds Dave subscribes to in FeedLand, in the \"Bloggers\" category.",
 		icon: "fa fa-newspaper",
 		getContent: function (callback) {
 			setUpRiver ({screenname: "davewiner", catname: "Bloggers"}, callback);
+			}
+		},
+	all: {
+		enabled: true,
+		name: "News",
+		type: "river",
+		description: "News from feeds Dave subscribes to in FeedLand, in the \"Tech\" category.",
+		icon: "fa fa-newspaper",
+		getContent: function (callback) {
+			setUpRiver ({screenname: "davewiner", catname: "Tech"}, callback);
 			}
 		},
 	dave: {

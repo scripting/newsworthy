@@ -1,3 +1,7 @@
+#### 2/13/24; 4:33:38 PM by DW
+
+The All category is very slow, working on it, in the meantime the News tab should be displaying something faster, like Tech category. 
+
 #### 11/30/23; 11:06:20 AM by DW
 
 This is the template for the new Scripting News home page. The story pages are still handled by the old template.
