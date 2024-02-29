@@ -433,7 +433,7 @@ function startup () {
 		
 		const blogrollOptions = {
 			urlFeedListOpml: appConsts.urlFeedListOpml,
-			title: "My Handsome Blogroll",
+			title: "Dave's Handsome Blogroll",
 			flDisplayTitle: true
 			};
 		
