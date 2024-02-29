@@ -1,4 +1,5 @@
-const myProductName = "Newsworthy", myVersion = "0.4.0";  
+const myProductName = "Newsworthy", myVersion = "0.4.1";  
+
 
 const theTabs = {
 	scriptingNews: {
@@ -145,7 +146,9 @@ const theTabs = {
 	};
 
 const appConsts = {
-	urlFeedlandServer: "https://feedland.com/"
+	urlFeedlandServer: "https://feedland.social/", //2/28/24 by DW
+	urlSocketServer: "wss://feedland.social/",
+	urlFeedListOpml: "http://scripting.com/code/blogroll/starterfeeds.opml"
 	}
 
 var globals = {
@@ -426,6 +429,23 @@ function viewLastUpdateString () { //9/28/17 by DW
 function startup () {
 	console.log ("startup");
 	
+	function startBlogroll () {
+		
+		const blogrollOptions = {
+			urlFeedListOpml: appConsts.urlFeedListOpml,
+			title: "My Handsome Blogroll",
+			flDisplayTitle: true
+			};
+		
+		try { //2/28/24 by DW
+			const theBlogroll = new blogroll (blogrollOptions);
+			}
+		catch (err) {
+			console.log (err.message);
+			return;
+			}
+		}
+	
 	if (localStorage.wordpressMemory !== undefined) {
 		wordpressMemory = JSON.parse (localStorage.wordpressMemory);
 		}
@@ -440,6 +460,8 @@ function startup () {
 		$(".divNavigationColumn").css ("display", "table-cell");
 		$(".divTextColumn").css ("display", "table-cell");
 		}, 300);
+	
+	startBlogroll (); //2/29/24 by DW
 	
 	viewLastUpdateString ();
 	self.setInterval (everySecond, 1000);
