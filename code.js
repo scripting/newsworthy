@@ -1,4 +1,4 @@
-const myProductName = "Newsworthy", myVersion = "0.4.1";  
+const myProductName = "Newsworthy", myVersion = "0.4.2";  
 
 
 const theTabs = {
@@ -148,7 +148,7 @@ const theTabs = {
 const appConsts = {
 	urlFeedlandServer: "https://feedland.social/", //2/28/24 by DW
 	urlSocketServer: "wss://feedland.social/",
-	urlFeedListOpml: "http://scripting.com/code/blogroll/starterfeeds.opml"
+	urlFeedListOpml: "https://feedland.social/opml?screenname=davewiner&catname=blogroll"
 	}
 
 var globals = {
@@ -426,25 +426,25 @@ function viewLastUpdateString () { //9/28/17 by DW
 		}
 	$("#idLastScriptingUpdate").html ("Updated: " + whenstring + ".");
 	}
+
+function startBlogroll () {
+	const blogrollOptions = {
+		urlFeedListOpml: appConsts.urlFeedListOpml,
+		title: "Ye Olde Scripting Blogroll",
+		flDisplayTitle: true
+		};
+	try { //2/28/24 by DW
+		const theBlogroll = new blogroll (blogrollOptions);
+		}
+	catch (err) {
+		console.log (err.message);
+		return;
+		}
+	}
+
 function startup () {
 	console.log ("startup");
 	
-	function startBlogroll () {
-		
-		const blogrollOptions = {
-			urlFeedListOpml: appConsts.urlFeedListOpml,
-			title: "Dave's Handsome Blogroll",
-			flDisplayTitle: true
-			};
-		
-		try { //2/28/24 by DW
-			const theBlogroll = new blogroll (blogrollOptions);
-			}
-		catch (err) {
-			console.log (err.message);
-			return;
-			}
-		}
 	
 	if (localStorage.wordpressMemory !== undefined) {
 		wordpressMemory = JSON.parse (localStorage.wordpressMemory);

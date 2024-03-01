@@ -1,3 +1,9 @@
+#### 3/1/24; 10:58:24 AM by DW
+
+Switched urlFeedListOpml over to the blogroll category in my account on feedland.social.
+
+https://feedland.social/opml?screenname=davewiner&catname=blogroll
+
 #### 2/27/24; 12:10:52 PM by DW
 
 Add a blogroll to the scripting news home page. 
