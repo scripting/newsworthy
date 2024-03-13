@@ -20,15 +20,6 @@ const theTabs = {
 				}
 			}
 		},
-	blog2: {
-		enabled: false,
-		name: "Blog2",
-		type: "blog",
-		icon: "fa fa-wordpress",
-		getContent: function (callback) {
-			getWordPressSiteText (222485322, callback);
-			}
-		},
 	Linkblog: {
 		enabled: true,
 		name: "Links",
@@ -47,6 +38,50 @@ const theTabs = {
 					callback (undefined, htmltext);
 					}
 				});
+			}
+		},
+	all: {
+		enabled: true,
+		name: "News",
+		type: "river",
+		description: "News from feeds Dave subscribes to in FeedLand, in the \"Tech\" category.",
+		icon: "fa fa-newspaper",
+		getContent: function (callback) {
+			setUpRiver ({screenname: "davewiner", catname: "Tech"}, callback);
+			}
+		},
+	about: {
+		enabled: true,
+		name: "About",
+		type: "outline",
+		description: "Notes about this site, in outline form. Not updated often enough. :-)",
+		icon: "fa fa-info-circle",
+		urlAboutOpml: "http://scripting.com/publicfolder/scripting/aboutpage.opml", 
+		getContent: function (callback) {
+			const aboutOutlineTitle = "About Scripting News";
+			opml.read (theTabs.about.urlAboutOpml, undefined, function (err, theOutline) {
+				if (err) {
+					callback (err);
+					}
+				else {
+					const outlineBody = theOutline.opml.body;
+					outlineBody.text = aboutOutlineTitle;
+					const divAboutOutline = $("<div class=\"divAboutOutline\"></div>");
+					const divRenderedOutline = renderOutlineBrowser (outlineBody, false, undefined, undefined, true);
+					divAboutOutline.append (divRenderedOutline);
+					callback (undefined, divAboutOutline);
+					}
+				});
+			}
+		
+		},
+	blog2: {
+		enabled: false,
+		name: "Blog2",
+		type: "blog",
+		icon: "fa fa-wordpress",
+		getContent: function (callback) {
+			getWordPressSiteText (222485322, callback);
 			}
 		},
 	allNews: {
@@ -99,16 +134,6 @@ const theTabs = {
 			setUpRiver ({screenname: "davewiner", catname: "Bloggers"}, callback);
 			}
 		},
-	all: {
-		enabled: true,
-		name: "News",
-		type: "river",
-		description: "News from feeds Dave subscribes to in FeedLand, in the \"Tech\" category.",
-		icon: "fa fa-newspaper",
-		getContent: function (callback) {
-			setUpRiver ({screenname: "davewiner", catname: "Tech"}, callback);
-			}
-		},
 	dave: {
 		enabled: false,
 		name: "Dave",
@@ -117,31 +142,6 @@ const theTabs = {
 		getContent: function (callback) {
 			setUpRiver ({screenname: "davewiner", catname: "Dave"}, callback);
 			}
-		},
-	about: {
-		enabled: true,
-		name: "About",
-		type: "outline",
-		description: "Notes about this site, in outline form. Not updated often enough. :-)",
-		icon: "fa fa-info-circle",
-		urlAboutOpml: "http://scripting.com/publicfolder/scripting/aboutpage.opml", 
-		getContent: function (callback) {
-			const aboutOutlineTitle = "About Scripting News";
-			opml.read (theTabs.about.urlAboutOpml, undefined, function (err, theOutline) {
-				if (err) {
-					callback (err);
-					}
-				else {
-					const outlineBody = theOutline.opml.body;
-					outlineBody.text = aboutOutlineTitle;
-					const divAboutOutline = $("<div class=\"divAboutOutline\"></div>");
-					const divRenderedOutline = renderOutlineBrowser (outlineBody, false, undefined, undefined, true);
-					divAboutOutline.append (divRenderedOutline);
-					callback (undefined, divAboutOutline);
-					}
-				});
-			}
-		
 		},
 	};
 
@@ -359,13 +359,16 @@ function readOpmlFile (url, outlineTitle, callback) {
 					displayTabContents (item);
 					flFoundTab = true;
 					}
-				addToolTip (liTab, item.description);
-				liTab.click (function () {
+				
+				function handleClick () { //3/8/24 by DW
+					console.log ("handleClick: item.name == " + item.name);
 					$(".liTab").removeClass ("active");
 					liTab.addClass ("active");
 					displayTabContents (item);
 					pushState (item.name);
-					});
+					}
+				liTab.on ("pointerdown", handleClick); //3/8/24 by DW
+				
 				ulTabs.append (liTab);
 				}
 			}
@@ -427,46 +430,73 @@ function viewLastUpdateString () { //9/28/17 by DW
 	$("#idLastScriptingUpdate").html ("Updated: " + whenstring + ".");
 	}
 
-function startBlogroll () {
-	const blogrollOptions = {
-		urlFeedListOpml: appConsts.urlFeedListOpml,
-		title: "Ye Olde Scripting Blogroll",
-		flDisplayTitle: true
-		};
-	try { //2/28/24 by DW
-		const theBlogroll = new blogroll (blogrollOptions);
+function startBlogroll (callback) {
+	console.log ("startBlogroll");
+	if ($(".divSidebar").css ("display") != "none") {
+		const blogrollOptions = {
+			urlFeedListOpml: appConsts.urlFeedListOpml,
+			title: "Dave's Blogroll",
+			flDisplayTitle: true,
+			blogrollDisplayedCallback: function () {
+				console.log ("blogrollDisplayedCallback");
+				if (callback !== undefined) {
+					callback ();
+					}
+				}
+			};
+		try { //2/28/24 by DW
+			const theBlogroll = new blogroll (blogrollOptions);
+			}
+		catch (err) {
+			console.log ("startBlogroll: err.message == " + err.message);
+			return;
+			}
 		}
-	catch (err) {
-		console.log (err.message);
-		return;
+	else {
+		if (callback !== undefined) {
+			callback ();
+			}
 		}
 	}
 
 function startup () {
 	console.log ("startup");
 	
-	
 	if (localStorage.wordpressMemory !== undefined) {
 		wordpressMemory = JSON.parse (localStorage.wordpressMemory);
 		}
 	
 	const allparams = getAllUrlParams ();
+	
+	
 	const options = {
 		nameActiveTab: allparams.tab
 		};
-	buildTabsAsTabs (options);
-	
-	setTimeout (function () { 
-		$(".divNavigationColumn").css ("display", "table-cell");
-		$(".divTextColumn").css ("display", "table-cell");
-		}, 300);
-	
-	startBlogroll (); //2/29/24 by DW
+	if (location.host == "q.lucky.wtf") { //3/6/24 by DW
+		startBlogroll (function () {
+			const url = "http://scripting.com/homepage.html?x=" + random (1, 100000);
+			buildTabsAsTabs (options);
+			httpRequest (url, undefined, undefined, function (err, htmltext) {
+				if (err) {
+					console.log ("servercall: url == " + url + ", err.message == " + err.message);
+					htmltext = err.message;
+					}
+				$(".divBodytextGoesHere").html (htmltext);
+				});
+			});
+		}
+	else {
+		buildTabsAsTabs (options);
+		}
 	
 	viewLastUpdateString ();
 	self.setInterval (everySecond, 1000);
 	runEveryMinute (everyMinute);
 	everyMinute ();
+	
+	$("body").click (function () { //3/10/24 by DW
+		console.log ("click");
+		});
 	
 	hitCounter ();
 	}

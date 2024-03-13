@@ -1,3 +1,23 @@
+#### 3/8/24; 9:01:22 AM by DW
+
+Yesterday's attempt to get tab clicking to work reliably didn't work, now trying another approach. 
+
+ChatGPT says we should look for pointerdown instead of click events, because these include finger clicks. 
+
+If it works, I'll post a link to its opinion here.
+
+#### 3/7/24; 10:56:03 AM by DW
+
+Tab clicks not working -- might have a fix.
+
+https://github.com/scripting/Scripting-News/issues/287#issuecomment-1983757115
+
+Look in buildTabsAsTabs.
+
+#### 3/6/24; 10:37:55 AM by DW
+
+Added blogroll code. 
+
 #### 3/1/24; 10:58:24 AM by DW
 
 Switched urlFeedListOpml over to the blogroll category in my account on feedland.social.
