@@ -146,9 +146,11 @@ const theTabs = {
 	};
 
 const appConsts = {
+	flBlogrollEnabled: true, //3/13/24 by DW
 	urlFeedlandServer: "https://feedland.social/", //2/28/24 by DW
 	urlSocketServer: "wss://feedland.social/",
-	urlFeedListOpml: "https://feedland.social/opml?screenname=davewiner&catname=blogroll"
+	urlFeedListOpml: "https://feedland.social/opml?screenname=davewiner&catname=blogroll",
+	urlFeedlandViewBlogroll: "https://feedland.social/?username=davewiner&catname=blogroll" //3/13/24 by DW
 	}
 
 var globals = {
@@ -435,6 +437,7 @@ function startBlogroll (callback) {
 	if ($(".divSidebar").css ("display") != "none") {
 		const blogrollOptions = {
 			urlFeedListOpml: appConsts.urlFeedListOpml,
+			urlFeedlandViewBlogroll: appConsts.urlFeedlandViewBlogroll,
 			title: "Dave's Blogroll",
 			flDisplayTitle: true,
 			blogrollDisplayedCallback: function () {
@@ -469,25 +472,20 @@ function startup () {
 	const allparams = getAllUrlParams ();
 	
 	
+	
+	
 	const options = {
 		nameActiveTab: allparams.tab
 		};
-	if (location.host == "q.lucky.wtf") { //3/6/24 by DW
+	if (appConsts.flBlogrollEnabled) { //3/13/24 by DW
 		startBlogroll (function () {
-			const url = "http://scripting.com/homepage.html?x=" + random (1, 100000);
 			buildTabsAsTabs (options);
-			httpRequest (url, undefined, undefined, function (err, htmltext) {
-				if (err) {
-					console.log ("servercall: url == " + url + ", err.message == " + err.message);
-					htmltext = err.message;
-					}
-				$(".divBodytextGoesHere").html (htmltext);
-				});
 			});
 		}
 	else {
 		buildTabsAsTabs (options);
 		}
+	
 	
 	viewLastUpdateString ();
 	self.setInterval (everySecond, 1000);

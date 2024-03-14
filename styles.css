@@ -4,12 +4,27 @@ body {
 	font-size: 18px;
 	line-height: 140%;
 	}
-.divPageBody {
-	width: 680px;
+.divPageBody { /* 3/6/24 by DW */
+	display: table;
+	width: 970px;
 	margin-top: 265px;
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: 400px;
+	}
+.divScriptingTabsPage { /* 3/6/24 by DW */
+	display: table-cell;
+	vertical-align: top;
+	width: 720px;
+	}
+.divSpacerCell { /* 3/6/24 by DW */
+	display: table-cell;
+	min-width: 35px;
+	height: 10px;
+	}
+.divSidebar { /* 3/6/24 by DW */
+	display: table-cell;
+	width: 220px;
 	}
 .divFooter {
 	width: 680px;
@@ -116,6 +131,43 @@ body {
 	.divAboutOutline .divOutlineHead .aOutlineTextLink {
 		color: black;
 		}
+/* blogrolls -- 3/6/24 by DW */
+	.divBlogrollTitle {
+		font-family: "Rancho";
+		font-size: 36px;
+		margin-top: 5px;
+		margin-bottom: 3px;
+		line-height: 1.1em;
+		letter-spacing: -1px;
+		}
+	.divScriptingTabs li { 
+		width: 125px; 
+		}
+	.divBlogrollContainer {
+		display: none;
+		border: 1px solid gainsboro;
+		background-color: white;
+		padding-top: 5;
+		}
+	.divBlogroll {
+		border: none;
+		}
+	.trBlogrollFeed { 
+		border: none;
+		}
+	.tdBlogrollFeedTitle, .tdBlogrollWedge {
+		}
+	.trBlogrollFeed td {
+		padding-top: 5px;
+		padding-bottom: 5px;
+		}
+	.lightCaretColor, .darkCaretColor {
+		color: black;
+		}
+	
+	.divRiverContent {
+		width: 600px;
+		}
 
 /* columns instead of tabs -- 11/24/23 by DW */
 	.divColumnContainer { 
@@ -186,6 +238,7 @@ body {
 		margin-top: -3px;
 		}
 
+
 /* styles for phone */
 	@media only screen 
 	and (min-device-width : 320px) 
@@ -194,8 +247,21 @@ body {
 			font-size: 16px;
 			}
 		.divPageBody {
+			display: block;
 			width: 98%;
 			margin-top: 143px;
+			}
+		.divScriptingTabsPage { /* 3/6/24 by DW */
+			display: block;
+			vertical-align: top;
+			width: 100%;
+			}
+		.divSpacerCell, .divSidebar { /* 3/6/24 by DW */
+			display: none;
+			}
+		.divRiverContent {
+			width: 100%;
+			margin-top: 25px;
 			}
 		.divScriptingTabs li {
 			width: inherit;
@@ -220,9 +286,6 @@ body {
 			margin-left: 0;
 			font-size: 17px;
 			}
-		.divRiverContent {
-			margin-top: 25px;
-			}
 		}
 /* styles for tablet */
 	@media only screen 
@@ -230,5 +293,15 @@ body {
 	and (max-device-width: 1024px) {
 		.divPageBody {
 			margin-top: 210px;
+			width: 96%;
+			}
+		.divScriptingTabsPage { /* 3/6/24 by DW */
+			width: 100%;
+			}
+		.divRiverContent {
+			width: 100%;
+			}
+		.divSpacerCell, .divSidebar { /* 3/6/24 by DW */
+			display: none;
 			}
 		}
