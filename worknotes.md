@@ -1,3 +1,29 @@
+#### 10/6/24; 12:28:39 PM by DW
+
+Added macro to show how long until thirtieth birthday of scripting news. 
+
+#### 5/1/24; 9:37:30 AM by DW
+
+CSS and the blogroll. 
+
+When I was developing the blogroll, I had a lot of custom stuff here. 
+
+But I commented it all out to see how the blogroll looked, and then I'm going to bring back stuff that we absolutely need.
+
+#### 4/20/24; 11:57:12 AM by DW
+
+Let's get quiet mode working.
+
+We say line-height is 140% in the body element in styles.css. A very standard thing in my CSS, but not uniform.
+
+Bootstrap declares a line-height of 20px in its body. So I'm going to accept that for now, and comment out the line-height value in body. 
+
+This may have some cascading problems elsewhere. Keep an eye out.
+
+#### 4/18/24; 10:18:23 AM by DW
+
+Let's use the new "testing" version of the blogroll software. 
+
 #### 3/8/24; 9:01:22 AM by DW
 
 Yesterday's attempt to get tab clicking to work reliably didn't work, now trying another approach. 

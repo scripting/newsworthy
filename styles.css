@@ -1,8 +1,9 @@
+
 body {
 	background-color: whitesmoke;
 	font-family: Ubuntu;
 	font-size: 18px;
-	line-height: 140%;
+	line-height: 20px; /* 4/20/24 by DW */
 	}
 .divPageBody { /* 3/6/24 by DW */
 	display: table;
@@ -19,7 +20,6 @@ body {
 	}
 .divSpacerCell { /* 3/6/24 by DW */
 	display: table-cell;
-	min-width: 35px;
 	height: 10px;
 	}
 .divSidebar { /* 3/6/24 by DW */
@@ -30,6 +30,9 @@ body {
 	width: 680px;
 	margin-left: auto;
 	margin-right: auto;
+	}
+.divMoreButton {
+	display: none;
 	}
 
 
@@ -131,43 +134,6 @@ body {
 	.divAboutOutline .divOutlineHead .aOutlineTextLink {
 		color: black;
 		}
-/* blogrolls -- 3/6/24 by DW */
-	.divBlogrollTitle {
-		font-family: "Rancho";
-		font-size: 36px;
-		margin-top: 5px;
-		margin-bottom: 3px;
-		line-height: 1.1em;
-		letter-spacing: -1px;
-		}
-	.divScriptingTabs li { 
-		width: 125px; 
-		}
-	.divBlogrollContainer {
-		display: none;
-		border: 1px solid gainsboro;
-		background-color: white;
-		padding-top: 5;
-		}
-	.divBlogroll {
-		border: none;
-		}
-	.trBlogrollFeed { 
-		border: none;
-		}
-	.tdBlogrollFeedTitle, .tdBlogrollWedge {
-		}
-	.trBlogrollFeed td {
-		padding-top: 5px;
-		padding-bottom: 5px;
-		}
-	.lightCaretColor, .darkCaretColor {
-		color: black;
-		}
-	
-	.divRiverContent {
-		width: 600px;
-		}
 
 /* columns instead of tabs -- 11/24/23 by DW */
 	.divColumnContainer { 
@@ -222,11 +188,6 @@ body {
 		padding-bottom: 40px;
 		min-height: 10000px;
 		}
-
-.divMoreButton {
-	display: none;
-	}
-
 /* 11/30/23 by DW */
 	.divScriptingTabs li {
 		width: 130px;
@@ -237,7 +198,24 @@ body {
 	.divScriptingTab {
 		margin-top: -3px;
 		}
+/* 7/21/24 by DW */
+	.spOldSchoolEmoji {
+		opacity: 0.5;
+		}
 
+/* blogrolls -- 5/1/24 by DW */
+	.lightCaretColor, .darkCaretColor {
+		color: black;
+		}
+	.divBlogrollContainer, #idBlogrollContainer {
+		border: 1px solid silver;
+		padding-left: 2px;
+		padding-right: 2px;
+		}
+	.divQuietBlogroll .trBlogrollFeed td {
+		padding-top: 3px;
+		padding-bottom: 3px;
+		}
 
 /* styles for phone */
 	@media only screen 

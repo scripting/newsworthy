@@ -1,4 +1,4 @@
-const myProductName = "Newsworthy", myVersion = "0.4.2";  
+const myProductName = "Newsworthy", myVersion = "0.4.3";  
 
 
 const theTabs = {
@@ -423,6 +423,88 @@ function everySecond () {
 	$(".spHowLongRunning").each (function () { //8/9/19 by DW
 		$(this).text ("This blog has been running for: " + howLongSinceStartAsString (new Date ("10/7/1994, 12:00 PDT")));
 		});
+	$(".spHowLongUntilThirty").each (function () { //10/6/24 by DW
+		function howlong () {
+			var whenThirty = new Date ("10/7/2024, 12:00 PDT");
+			var now = new Date ();
+			function howLongUntil (now, whenStart) { 
+				function daysInYear (year) {
+					var flLeapYear = ((year % 400) == 0) || ((year % 100) != 0 && ((year % 4) == 0));
+					return ((flLeapYear) ? 366 : 365);
+					}
+				function daysInMonth (month, year) { 
+					return (new Date (year, month, 0).getDate ()); 
+					} 
+				function getnum (num, units) {
+					if (num != 1) {
+						units += "s";
+						}
+					return (num + " " + units);
+					}
+				const ctSecsInDay = 60 * 60 * 24;
+				const ctMilliSecsInDay = 1000 * ctSecsInDay;
+				var theYear = whenStart.getFullYear ();
+				var ctDays = (now - whenStart) / ctMilliSecsInDay;
+				var ctYears = 0;
+				while (true) {
+					if (ctDays <= daysInYear (theYear)) {
+						break;
+						}
+					ctDays -= daysInYear (theYear);
+					ctYears++;
+					theYear++;
+					}
+				
+				var theMonth = 0, ctMonths = 0;
+				while (true) {
+					
+					if (ctDays < daysInMonth (theMonth, theYear)) {
+						break;
+						}
+					ctDays -= daysInMonth (theMonth, theYear);
+					ctMonths++;
+					theMonth++;
+					}
+				
+				const ctWholeDays = Math.floor (ctDays);
+				var ctRemainingSecs = (ctDays - ctWholeDays) * ctSecsInDay;
+				var ctHours = Math.floor (ctRemainingSecs / (60 * 60));
+				ctRemainingSecs -= ctHours * 60 * 60;
+				var ctMinutes = Math.floor (ctRemainingSecs / 60);
+				ctRemainingSecs -= ctMinutes * 60;
+				ctRemainingSecs = Math.floor (ctRemainingSecs);
+				return ({
+					years: ctYears,
+					months: ctMonths,
+					days: ctWholeDays,
+					hours: ctHours,
+					minutes: ctMinutes,
+					seconds: ctRemainingSecs
+					});
+				}
+			
+			var howlong = howLongUntil (whenThirty, now);
+			
+			var s = "";
+			function addnum (num, label) {
+				if (num > 0) {
+					if (num == 1) {
+						label = stringDelete (label, label.length, 1);
+						}
+					s += num + " " + label + ", ";
+					}
+				}
+			addnum (howlong.days, "days");
+			addnum (howlong.hours, "hours");
+			addnum (howlong.minutes, "minutes");
+			addnum (howlong.seconds, "seconds");
+			if (endsWith (s, ", ")) {
+				s = stringDelete (s, s.length - 1, 2);
+				}
+			return (s);
+			}
+		$(this).text (howlong ());
+		});
 	}
 function viewLastUpdateString () { //9/28/17 by DW
 	var whenstring = getFacebookTimeString (config.now, true); //2/25/18 by DW
@@ -435,11 +517,20 @@ function viewLastUpdateString () { //9/28/17 by DW
 function startBlogroll (callback) {
 	console.log ("startBlogroll");
 	if ($(".divSidebar").css ("display") != "none") {
+		const flQuietMode = false; //7/31/24 by DW
+		const theCheckbox = $(".divBlogrollQuietModeSwitch input"); 
+		if (flQuietMode) { //4/17/24 by DW
+			$(".divBlogrollContainer").css ("width", 220);
+			}
+		theCheckbox.prop ("checked", flQuietMode);
+		
 		const blogrollOptions = {
 			urlFeedListOpml: appConsts.urlFeedListOpml,
 			urlFeedlandViewBlogroll: appConsts.urlFeedlandViewBlogroll,
+			whereToAppend: $(".divBlogrollContainer"), //3/15/24 by DW
 			title: "Dave's Blogroll",
 			flDisplayTitle: true,
+			flQuietMode: flQuietMode,
 			blogrollDisplayedCallback: function () {
 				console.log ("blogrollDisplayedCallback");
 				if (callback !== undefined) {
@@ -454,6 +545,17 @@ function startBlogroll (callback) {
 			console.log ("startBlogroll: err.message == " + err.message);
 			return;
 			}
+		
+		theCheckbox.change (function () { //4/20/24 by DW
+			if (theCheckbox.is (':checked')) {
+				blogrollOptions.flQuietMode = true;
+				} 
+			else {
+				blogrollOptions.flQuietMode = false;
+				}
+			$(".divBlogrollContainer").empty ();
+			blogroll (blogrollOptions);
+			});
 		}
 	else {
 		if (callback !== undefined) {
