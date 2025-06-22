@@ -27,7 +27,7 @@ const theTabs = {
 		type: "linkblog",
 		icon: "fa fa-link",
 		getContent: function (callback) {
-			const feedUrl = "http://data.feedland.org/feeds/davewiner.xml";
+			const feedUrl = "https://dave.linkblog.org/";
 			const url = "http://feeder.scripting.com/returnlinkbloghtml?url=" + encodeURIComponent (feedUrl);
 			httpRequest (url, undefined, undefined, function (err, htmltext) {
 				if (err) {
