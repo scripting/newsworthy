@@ -54,7 +54,7 @@
 		<link href="//s3.amazonaws.com/scripting.com/code/tabsmanager2/styles.css" rel="stylesheet" type="text/css">
 		<script src="//s3.amazonaws.com/scripting.com/code/tabsmanager2/code.js"></script>
 		
-		<script src="http://scripting.com/code/newsworthy/code.js"></script>
+		<script src="http://scripting.com/code/newsworthy/code.js?x=1"></script>
 		
 		
 		<link rel="stylesheet" href="http://scripting.com/code/newsworthy/styles.css?x=0"/>
@@ -84,6 +84,12 @@
 			<div class="divSpacerCell">
 				</div>
 			<div class="divSidebar">
+				
+				<div class="divSearchBox" id="idSearchBox">
+					<input id="idQueryInput" type="text" placeholder="Search blog for..">
+					<button class="btn btnLookup btnPrimary" onclick="searchButtonClick ()">Go</button>
+					</div>
+				
 				<div class="divBlogrollContainer" id="idBlogrollContainer" tabindex="0">
 					</div>
 				</div>

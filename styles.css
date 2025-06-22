@@ -216,6 +216,38 @@ body {
 		padding-top: 3px;
 		padding-bottom: 3px;
 		}
+/* search box for daytona -- 1/17/25 by DW */
+	.divSearchBox {
+		height: 35px;
+		margin-left: 5px;
+		}
+	.divSearchBox input {
+		display: table-cell;
+		font-family: "Ubuntu";
+		font-size: 14px;
+		padding: 2px;
+		padding-left: 4px;
+		width: 13em;
+		height: 2em;
+		vertical-align: middle;
+		margin-bottom: 0;
+		}
+	.divSearchBox .btnLookup {
+		display: table-cell;
+		font-family: "Ubuntu";
+		font-size: 14px;
+		vertical-align: middle;
+		margin-left: 5px;
+		text-align: right;
+		width: 45px;
+		height: 2em;
+		}
+	
+	
+	
+	
+	
+	
 
 /* styles for phone */
 	@media only screen 

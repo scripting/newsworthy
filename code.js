@@ -406,6 +406,27 @@ function readOpmlFile (url, outlineTitle, callback) {
 	function getUsersBlogUrl () { 
 		return (""); 
 		}
+//search button -- 1/17/25 by DW
+	function searchButtonClick () {
+		console.log ("searchButtonClick");
+		$(".divSearchBox button").blur ();
+		const searchterm = $("#idQueryInput").val ()
+		localStorage.lastSearchTerm = searchterm; 
+		const url = "https://daytona.scripting.com/search?q=" + searchterm;
+		console.log ("searchButtonClick: url == " + url);
+		window.open (url);
+		}
+	function initSearchButton () {
+		if (localStorage.lastSearchTerm !== undefined) {
+			$("#idQueryInput").val (localStorage.lastSearchTerm);
+			}
+		$(".divSearchBox").on ("keydown", function (ev) {
+			if (ev.key === "Enter") {
+				searchButtonClick ();
+				event.preventDefault (); 
+				}
+			});
+		}
 
 function everyMinute () {
 	var now = new Date ();
@@ -597,6 +618,8 @@ function startup () {
 	$("body").click (function () { //3/10/24 by DW
 		console.log ("click");
 		});
+	
+	initSearchButton (); //1/17/25 by DW
 	
 	hitCounter ();
 	}
