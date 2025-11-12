@@ -28,7 +28,7 @@ const theTabs = {
 		icon: "fa fa-link",
 		getContent: function (callback) {
 			const feedUrl = "https://dave.linkblog.org/";
-			const url = "http://feeder.scripting.com/returnlinkbloghtml?url=" + encodeURIComponent (feedUrl);
+			const url = "https://feeder.scripting.com/returnlinkbloghtml?url=" + encodeURIComponent (feedUrl);
 			httpRequest (url, undefined, undefined, function (err, htmltext) {
 				if (err) {
 					callback (err);
@@ -597,20 +597,22 @@ function startup () {
 	
 	
 	
-	const options = {
+	
+	const options = { //11/12/25 by DW
 		nameActiveTab: allparams.tab
 		};
-	if (appConsts.flBlogrollEnabled) { //3/13/24 by DW
-		startBlogroll (function () {
-			buildTabsAsTabs (options);
-			});
-		}
-	else {
-		buildTabsAsTabs (options);
-		}
-	
+	buildTabsAsTabs (options);
 	
 	viewLastUpdateString ();
+	
+	if (appConsts.flBlogrollEnabled) { //11/12/25 by DW
+		const whenstart = new Date ();
+		startBlogroll (function () {
+			buildTabsAsTabs (options);
+			console.log ("startBlogroll took " + secondsSince (whenstart) + " secs.");
+			});
+		}
+	
 	self.setInterval (everySecond, 1000);
 	runEveryMinute (everyMinute);
 	everyMinute ();
