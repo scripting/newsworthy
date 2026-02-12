@@ -608,7 +608,6 @@ function startup () {
 	if (appConsts.flBlogrollEnabled) { //11/12/25 by DW
 		const whenstart = new Date ();
 		startBlogroll (function () {
-			buildTabsAsTabs (options);
 			console.log ("startBlogroll took " + secondsSince (whenstart) + " secs.");
 			});
 		}
@@ -617,9 +616,6 @@ function startup () {
 	runEveryMinute (everyMinute);
 	everyMinute ();
 	
-	$("body").click (function () { //3/10/24 by DW
-		console.log ("click");
-		});
 	
 	initSearchButton (); //1/17/25 by DW
 	

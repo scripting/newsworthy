@@ -2,6 +2,8 @@
 
 Sometimes it takes a really long time for the blog to be viewed. It was waiting for the blogroll to be built before displaying the tabs. I think that's backwards, so I'm trying to reverse it and see how it works. Has to be better than the way it's working now. 
 
+It's way better.
+
 #### 10/6/24; 12:28:39 PM by DW
 
 Added macro to show how long until thirtieth birthday of scripting news. 
